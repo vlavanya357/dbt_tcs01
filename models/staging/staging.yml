@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: stg_nations
+    description: List of all countries
+    columns:
+      - name: nation_id
+        tests:
+          - unique
+          - not_null
+      - name: region_id
+        tests:
+          - not_null
+          - relationships:
+             to: ref('stg_regions')
+             field: region_id
+             config:
+               store_failures: true         
+  - name: stg_regions
+    columns:
+      - name: region_id
+        tests:
+          - unique
+          - not_null
+      - name: name
+        tests:   
+          - accepted_values:
+              values: ['ASIA','AFRICA','AMERICA','ARCTIC','EUROPE','MIDDLE EAST']
+              config:
+               store_failures: true
+  - name: stg_customers
+    description: customer data
+    columns:
+      - name: customer_id
+        description: '{{ doc("primarykey") }}'
+        
+                 
